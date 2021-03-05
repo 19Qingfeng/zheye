@@ -9,8 +9,7 @@
     </a>
 
     <ul class="dropdown-menu custom-dropdown-menu" v-show="isOpen">
-      <li><a class="dropdown-item" href="#">新建文章</a></li>
-      <li><a class="dropdown-item" href="#">编辑资料</a></li>
+      <slot />
     </ul>
   </div>
 </template>
