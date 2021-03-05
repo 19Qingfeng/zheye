@@ -1,14 +1,31 @@
 <template>
   <div class="container">
     <golbal-header :user="userInfo" />
+    <form>
+      <div class="mb-3">
+        <validate-input
+          placeholder="请输入邮箱"
+          v-model="email"
+          :rules="rules"
+        />
+        <validate-input
+          placeholder="请输入密码"
+          type="password"
+          v-model="email"
+          :rules="rules"
+        />
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
     <column-list :list="list" />
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 import ColumnList, { ColumnListData } from './components/ColumnList.vue'
 import GolbalHeader, { UserProps } from './components/GolbalHeader.vue'
+import ValidateInput, { RulesProps } from './components/ValidateInput.vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const data: ColumnListData[] = [
@@ -65,12 +82,20 @@ export default defineComponent({
   name: 'App',
   components: {
     ColumnList,
-    GolbalHeader
+    GolbalHeader,
+    ValidateInput
   },
   setup () {
+    const rules = reactive<RulesProps>([
+      { type: 'require', message: '请输入邮箱' },
+      { type: 'email', message: '请输入正确邮箱地址' }
+    ])
+    const email = ref('12DD3')
     return {
       list: data,
-      userInfo
+      userInfo,
+      email,
+      rules
     }
   }
 })
