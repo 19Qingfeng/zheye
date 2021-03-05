@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <golbal-header :user="userInfo" />
-    <form>
+    <validate-form @onFormSubmit="onSubmit">
       <div class="mb-3">
         <validate-input
           placeholder="请输入邮箱"
@@ -14,9 +14,15 @@
           v-model="email"
           :rules="rules"
         />
-        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
-    </form>
+
+      <template #footer>
+        <div class="mb-3">
+          <span class="btn btn-primary me-3">提交</span>
+          <span class="btn btn-secondary">取消</span>
+        </div>
+      </template>
+    </validate-form>
     <column-list :list="list" />
   </div>
 </template>
@@ -26,6 +32,7 @@ import { defineComponent, ref, reactive } from 'vue'
 import ColumnList, { ColumnListData } from './components/ColumnList.vue'
 import GolbalHeader, { UserProps } from './components/GolbalHeader.vue'
 import ValidateInput, { RulesProps } from './components/ValidateInput.vue'
+import ValidateForm from './components/validateForm.vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const data: ColumnListData[] = [
@@ -83,7 +90,8 @@ export default defineComponent({
   components: {
     ColumnList,
     GolbalHeader,
-    ValidateInput
+    ValidateInput,
+    ValidateForm
   },
   setup () {
     const rules = reactive<RulesProps>([
@@ -91,9 +99,13 @@ export default defineComponent({
       { type: 'email', message: '请输入正确邮箱地址' }
     ])
     const email = ref('12DD3')
+    const onSubmit = (validate: boolean) => {
+      console.log(validate)
+    }
     return {
       list: data,
       userInfo,
+      onSubmit,
       email,
       rules
     }
