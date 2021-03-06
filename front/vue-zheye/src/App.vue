@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <golbal-header :user="userInfo" />
-    <validate-form @onFormSubmit="onSubmit">
+    <validate-form @on-form-submit="onSubmit" ref="form">
       <div class="mb-3">
         <validate-input
           placeholder="请输入邮箱"
@@ -11,7 +11,7 @@
         <validate-input
           placeholder="请输入密码"
           type="password"
-          v-model="email"
+          v-model="password"
           :rules="rules"
         />
       </div>
@@ -28,7 +28,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, ComponentPublicInstance } from 'vue'
 import ColumnList, { ColumnListData } from './components/ColumnList.vue'
 import GolbalHeader, { UserProps } from './components/GolbalHeader.vue'
 import ValidateInput, { RulesProps } from './components/ValidateInput.vue'
@@ -94,20 +94,26 @@ export default defineComponent({
     ValidateForm
   },
   setup () {
+    const form = ref<any>(null)
     const rules = reactive<RulesProps>([
       { type: 'require', message: '请输入邮箱' },
       { type: 'email', message: '请输入正确邮箱地址' }
     ])
     const email = ref('12DD3')
+    const password = ref('')
     const onSubmit = (validate: boolean) => {
-      console.log(validate)
+      if (validate) {
+        form.value.clearFormData()
+      }
     }
     return {
       list: data,
+      password,
       userInfo,
       onSubmit,
       email,
-      rules
+      rules,
+      form
     }
   }
 })

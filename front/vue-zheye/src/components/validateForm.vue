@@ -10,17 +10,35 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, onUnmounted } from 'vue'
+import { $on, $off, $emit } from '@/utils/event'
+type validateRule = () => boolean;
 
 export default defineComponent({
   name: 'ValidateForm',
   emits: ['onFormSubmit'],
   setup (props, context) {
+    const validateList: validateRule[] = []
     const onFormSubmit = () => {
-      context.emit('onFormSubmit', true)
+      const result = validateList
+        .map((func) => func())
+        .every((boolean) => boolean)
+      context.emit('onFormSubmit', result)
     }
+    // return 出来父组件才能用
+    const clearFormData = () => {
+      $emit('clear-form-data')
+    }
+    const validateFormItem = (func: validateRule) => {
+      validateList.push(func)
+    }
+    $on('form-item-created', validateFormItem)
+    onUnmounted(() => {
+      $off('form-item-created', validateFormItem)
+    })
     return {
-      onFormSubmit
+      onFormSubmit,
+      clearFormData
     }
   }
 })

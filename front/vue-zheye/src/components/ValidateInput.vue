@@ -16,7 +16,14 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, PropType, reactive } from 'vue'
+import {
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  PropType,
+  reactive
+} from 'vue'
+import { $emit, $off, $on } from '@/utils/event'
 
 const emailReg = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*\.[a-z]{2,}$/
 
@@ -61,13 +68,28 @@ export default defineComponent({
           return passed
         })
         value.error = !allPass
+        return allPass
       }
+      return true
     }
     const updateModelValue = (e: KeyboardEvent) => {
       const target = e.target
       const value = (target as HTMLInputElement).value
       context.emit('update:modelValue', value)
     }
+    const clearInput = () => {
+      value.val = ''
+      context.emit('update:modelValue', '')
+    }
+    onMounted(() => {
+      $emit('form-item-created', validateInput)
+      // 监听清空
+      $on('clear-form-data', clearInput)
+    })
+    onUnmounted(() => {
+      $off('form-item-created', validateInput)
+      $off('clear-form-data', clearInput)
+    })
     return {
       value,
       validateInput,
