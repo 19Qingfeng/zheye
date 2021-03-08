@@ -3,7 +3,7 @@
     <slot />
     <div class="submit-area" @click="onFormSubmit">
       <slot name="footer">
-        <button type="submit" class="btn btn-primary">提交</button>
+        <span class="btn btn-primary">提交</span>
       </slot>
     </div>
   </form>

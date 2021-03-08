@@ -1,11 +1,16 @@
 <template>
-  <li class="dropdown-option" :class="{ 'is-disabled': disabled }">
+  <li
+    class="dropdown-option"
+    :class="{ 'is-disabled': disabled }"
+    @click="onClickDropItem"
+  >
     <slot />
   </li>
 </template>
 
 <script lang='ts'>
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'DropdownItem',
@@ -13,10 +18,25 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    link: {
+      type: String,
+      default: ''
     }
   },
-  setup () {
-    // nothing
+  setup (props) {
+    // useRouter 只能在setup中使用
+    const router = useRouter()
+    const onClickDropItem = () => {
+      if (props.link) {
+        router.push({
+          name: props.link
+        })
+      }
+    }
+    return {
+      onClickDropItem
+    }
   }
 })
 </script>

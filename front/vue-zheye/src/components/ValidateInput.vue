@@ -1,6 +1,7 @@
 <template>
   <div class="validate-input-container pb-3">
-    <input
+    <component
+      :is="tag"
       ref="input"
       class="form-control"
       :class="{ 'is-invalid': value.error }"
@@ -32,6 +33,8 @@ interface RuleProp {
   message: string;
 }
 
+export type TagType = 'input' | 'textarea';
+
 export type RulesProps = RuleProp[];
 
 export default defineComponent({
@@ -40,6 +43,10 @@ export default defineComponent({
   props: {
     rules: {
       type: Array as PropType<RulesProps>
+    },
+    tag: {
+      type: String as PropType<TagType>,
+      default: 'input'
     },
     modelValue: {
       type: String,
@@ -74,8 +81,9 @@ export default defineComponent({
     }
     const updateModelValue = (e: KeyboardEvent) => {
       const target = e.target
-      const value = (target as HTMLInputElement).value
-      context.emit('update:modelValue', value)
+      const updateValue = (target as HTMLInputElement).value
+      value.val = updateValue
+      context.emit('update:modelValue', updateValue)
     }
     const clearInput = () => {
       value.val = ''
