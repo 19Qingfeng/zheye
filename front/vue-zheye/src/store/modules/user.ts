@@ -16,7 +16,7 @@ const module: Module<UserState, StateType> = {
   namespaced: true,
   state: {
     user: {
-      isLogin: false,
+      isLogin: true,
       name: undefined,
       id: undefined,
       columnId: undefined
