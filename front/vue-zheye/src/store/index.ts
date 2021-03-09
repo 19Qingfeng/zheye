@@ -1,5 +1,5 @@
 import { InjectionKey } from 'vue'
-import { StateType } from './types/index'
+import { StateType } from './interface'
 import {
   createStore,
   createLogger,

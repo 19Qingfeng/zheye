@@ -1,10 +1,10 @@
-import { HomeData } from './modules/home'
+// types/index.ts
+import { HomeState } from './modules/home'
+import { UserState } from './modules/user'
 
-export interface RootStateType {
-  home: string;
-}
+type VuexModuleType = {
+  home: HomeState;
+  user: UserState;
+};
 
-// export type RootState = {
-//   documents: DocumentsState;
-//   profile: ProfileState;
-// };
+export type StateType = VuexModuleType;

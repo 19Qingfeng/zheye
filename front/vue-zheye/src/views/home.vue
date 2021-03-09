@@ -1,108 +1,39 @@
 <template>
   <div class="container">
-    <validate-form @on-form-submit="onSubmit" ref="form">
-      <div class="mb-3">
-        <validate-input
-          placeholder="请输入邮箱"
-          v-model="email"
-          :rules="rules"
-        />
-        <validate-input
-          placeholder="请输入密码"
-          type="password"
-          v-model="password"
-          :rules="rules"
-        />
-      </div>
-
-      <template #footer>
-        <div class="mb-3">
-          <span class="btn btn-primary me-3">提交</span>
-          <span class="btn btn-secondary">取消</span>
+    <section class="py-5 text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <img src="../assets/callout.svg" alt="callout" class="w-50" />
+          <h2 class="font-weight-light">随心写作，自由表达</h2>
+          <p>
+            <a href="#" class="btn btn-primary my-2">开始写文章</a>
+          </p>
         </div>
-      </template>
-    </validate-form>
+      </div>
+    </section>
+    <h4 class="font-weight-bold text-center">发现精彩</h4>
     <column-list :list="list" />
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref, reactive } from 'vue'
-import ColumnList, { ColumnListData } from '../components/ColumnList.vue'
-import ValidateInput, { RulesProps } from '../components/ValidateInput.vue'
-import ValidateForm from '../components/validateForm.vue'
-
-const data: ColumnListData[] = [
-  {
-    id: 1,
-    title: 'hello',
-    avatar:
-      'https://th.bing.com/th/id/R5c74741127a42b3c550f0a6ecd82096a?rik=mSmOU8RfNwFUbQ&riu=http%3a%2f%2fimg17.3lian.com%2f201612%2f20%2f99b8790a4faae5fcebbe838eb24213ac.jpg&ehk=tGjAhjyRMAnzuFL%2b0y5ODF%2bozs8ahlOJ8%2fXRhxAri7E%3d&risl=&pid=ImgRaw',
-    description: '这是描述'
-  },
-  {
-    id: 2,
-    title: 'hello',
-    avatar: '',
-    description: '这是描述'
-  },
-  {
-    id: 3,
-    title: 'hello',
-    avatar:
-      'https://th.bing.com/th/id/R5c74741127a42b3c550f0a6ecd82096a?rik=mSmOU8RfNwFUbQ&riu=http%3a%2f%2fimg17.3lian.com%2f201612%2f20%2f99b8790a4faae5fcebbe838eb24213ac.jpg&ehk=tGjAhjyRMAnzuFL%2b0y5ODF%2bozs8ahlOJ8%2fXRhxAri7E%3d&risl=&pid=ImgRaw',
-    description: '这是描述'
-  },
-  {
-    id: 4,
-    title: 'hello',
-    avatar:
-      'https://th.bing.com/th/id/R5c74741127a42b3c550f0a6ecd82096a?rik=mSmOU8RfNwFUbQ&riu=http%3a%2f%2fimg17.3lian.com%2f201612%2f20%2f99b8790a4faae5fcebbe838eb24213ac.jpg&ehk=tGjAhjyRMAnzuFL%2b0y5ODF%2bozs8ahlOJ8%2fXRhxAri7E%3d&risl=&pid=ImgRaw',
-    description: '这是描述'
-  },
-  {
-    id: 5,
-    title: 'hello',
-    avatar:
-      'https://th.bing.com/th/id/R5c74741127a42b3c550f0a6ecd82096a?rik=mSmOU8RfNwFUbQ&riu=http%3a%2f%2fimg17.3lian.com%2f201612%2f20%2f99b8790a4faae5fcebbe838eb24213ac.jpg&ehk=tGjAhjyRMAnzuFL%2b0y5ODF%2bozs8ahlOJ8%2fXRhxAri7E%3d&risl=&pid=ImgRaw',
-    description: '这是描述'
-  },
-  {
-    id: 6,
-    title: 'hello',
-    avatar:
-      'https://th.bing.com/th/id/R5c74741127a42b3c550f0a6ecd82096a?rik=mSmOU8RfNwFUbQ&riu=http%3a%2f%2fimg17.3lian.com%2f201612%2f20%2f99b8790a4faae5fcebbe838eb24213ac.jpg&ehk=tGjAhjyRMAnzuFL%2b0y5ODF%2bozs8ahlOJ8%2fXRhxAri7E%3d&risl=&pid=ImgRaw',
-    description: '这是描述'
-  }
-]
+import { computed, defineComponent } from 'vue'
+import { useStore } from '@/store/index'
+import ColumnList from '../components/ComumnList/index.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    ColumnList,
-    ValidateInput,
-    ValidateForm
+    ColumnList
   },
   setup () {
-    const form = ref<any>(null)
-    const rules = reactive<RulesProps>([
-      { type: 'require', message: '请输入邮箱' },
-      { type: 'email', message: '请输入正确邮箱地址' }
-    ])
-    const email = ref('12DD3')
-    const password = ref('')
-    const onSubmit = (validate: boolean) => {
-      if (validate) {
-        form.value.clearFormData()
-      }
-    }
+    const store = useStore()
+    const list = computed(() => {
+      return store.state.home.column
+    })
+    store.dispatch('home/fetchColumns')
     return {
-      list: data,
-      password,
-      onSubmit,
-      email,
-      rules,
-      form
+      list
     }
   }
 })

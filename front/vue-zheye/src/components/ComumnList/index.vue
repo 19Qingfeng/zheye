@@ -6,7 +6,7 @@
           <img
             :src="column.avatar"
             :alt="column.title"
-            class="rounded-circle border border-light w-25 my-3"
+            class="rounded-circle border border-light my-3"
           />
           <h5 class="card-title">{{ column.title }}</h5>
           <p class="card-text text-left">{{ column.description }}</p>
@@ -22,13 +22,7 @@
 
 <script lang='ts'>
 import { computed, defineComponent, PropType } from 'vue'
-
-export interface ColumnListData {
-  id: number;
-  title: string;
-  avatar?: string;
-  description: string;
-}
+import { ColumnListData } from './interface'
 
 export default defineComponent({
   name: 'ColumnList',
@@ -47,7 +41,7 @@ export default defineComponent({
             ...column,
             avatar: column.avatar
               ? column.avatar
-              : require('../assets/default.png')
+              : require('../../assets/default.png')
           }
         })
       },
@@ -62,5 +56,11 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style lang='scss' scoped>
+.card-body {
+  img {
+    width: 50px;
+    height: 50px;
+  }
+}
 </style>

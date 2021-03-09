@@ -1,5 +1,5 @@
 import { ComponentCustomProperties } from 'vue'
-import { StateType } from './store/types/index'
+import { StateType } from './store/interface'
 import { Store } from 'vuex'
 
 declare module '@vue/runtime-core' {

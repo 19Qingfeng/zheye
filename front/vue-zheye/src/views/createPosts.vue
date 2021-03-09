@@ -31,7 +31,6 @@
 import { defineComponent, ref } from 'vue'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
-import { PostProps } from '@/mock/column'
 import ValidateForm from '@/components/validateForm.vue'
 import ValidateInput from '@/components/ValidateInput.vue'
 
@@ -58,17 +57,10 @@ export default defineComponent({
         message: '必填项'
       }
     ]
-    const mockProps: PostProps = {
-      id: 100,
-      title: 'title',
-      content: 'content',
-      createdAt: '2021-3-8',
-      columnId: 1
-    }
     // 点击提交 boolean
     const onFormSubmit = (boolean: boolean) => {
       if (boolean) {
-        store.commit('home/createPosts', mockProps)
+        // store.commit('home/createPosts', mockProps)
         router.push({
           name: 'Home'
         })

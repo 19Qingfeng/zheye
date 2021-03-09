@@ -1,4 +1,4 @@
-import { StateType } from '../types/index'
+import { StateType } from '../interface'
 import { Module } from 'vuex'
 
 export interface UserState {

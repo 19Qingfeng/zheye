@@ -8,7 +8,7 @@
         <img
           :src="column.avatar"
           :alt="column.title"
-          class="rounded-circle border"
+          class="rounded-circle border w-100"
         />
       </div>
       <div class="col-9">
@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from '@/store'
-import PostList from '../components/PostList.vue'
+import PostList from '../components/PostList/index.vue'
 export default defineComponent({
   components: {
     PostList
@@ -32,11 +32,21 @@ export default defineComponent({
   setup () {
     const route = useRoute()
     const store = useStore()
-    const currentId = +route.params.id
+    const currentId = route.params.id
     const column = computed(() =>
       store.getters['home/currentColumn'](currentId)
     )
+    onMounted(() => {
+      store.dispatch('home/fetchColumn', currentId)
+      store.dispatch('home/fetchPosts', currentId)
+    })
+    // const list = computed(() => store.getters['home/currentPosts'](currentId))
     const list = computed(() => store.getters['home/currentPosts'](currentId))
+    console.log(column.value, 'column')
+    console.log(list.value, 'list')
+    onMounted(() => {
+      // nothing
+    })
     return {
       column,
       list
