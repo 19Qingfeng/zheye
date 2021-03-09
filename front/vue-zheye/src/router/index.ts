@@ -16,7 +16,10 @@ const router = createRouter({
         {
           path: '/home',
           name: 'Home',
-          component: Home
+          component: Home,
+          meta: {
+            requireLogin: true
+          }
         },
         {
           path: '/login',
@@ -29,7 +32,10 @@ const router = createRouter({
         {
           path: '/column/:id',
           name: 'Column',
-          component: Column
+          component: Column,
+          meta: {
+            requireLogin: true
+          }
         },
         {
           path: '/create',
@@ -47,13 +53,34 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.requireLogin && !store.state.user.user.isLogin) {
-    next({ name: 'Login' })
-  } else if (to.meta.redirectAlreadyLogin && store.state.user.user.isLogin) {
-    next({ name: 'Home' })
+const whiteList: string[] = ['/login']
+
+router.beforeEach(async (to, from, next) => {
+  // isLogin 使用是否存在token进行检查 而不是isLogin
+  const isLogin = store.getters['user/isLogin']
+  const hasUserInfo = !!store.state.user.user._id
+  if (isLogin) {
+    if (to.meta.redirectAlreadyLogin && isLogin) {
+      next({ name: 'Home' })
+    } else {
+      if (hasUserInfo) {
+        next()
+      } else {
+        try {
+          await store.dispatch('user/getInfo')
+          next()
+        } catch {
+          store.dispatch('user/removeLoginInfo')
+          next(`/login?redirect=${to.path}`)
+        }
+      }
+    }
   } else {
-    next()
+    if (whiteList.includes(to.path)) {
+      next()
+    } else {
+      next(`/login?redirect=${to.path}`)
+    }
   }
 })
 

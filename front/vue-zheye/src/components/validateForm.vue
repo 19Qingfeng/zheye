@@ -25,7 +25,6 @@ export default defineComponent({
         .every((boolean) => boolean)
       context.emit('onFormSubmit', result)
     }
-    // return 出来父组件才能用
     const clearFormData = () => {
       $emit('clear-form-data')
     }

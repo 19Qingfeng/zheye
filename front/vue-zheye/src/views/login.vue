@@ -36,16 +36,19 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const form = ref<any>(null)
-    const password = ref('')
-    const email = ref('12DD3')
+    const password = ref('111111')
+    const email = ref('111@test.com')
     const rules = reactive<RulesProps>([
       { type: 'require', message: '请输入邮箱' }
-      // { type: 'email', message: '请输入正确邮箱地址' }
     ])
-    const onSubmit = (validate: boolean) => {
+    const onSubmit = async (validate: boolean) => {
       if (validate) {
+        const obj = {
+          email: email.value,
+          password: password.value
+        }
+        await store.dispatch('user/getLoginInfo', obj)
         form.value.clearFormData()
-        store.commit('user/login')
         router.push({ name: 'Home' })
       }
     }

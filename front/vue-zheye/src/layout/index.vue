@@ -8,7 +8,8 @@
 <script lang='ts'>
 import { defineComponent, computed, ComputedRef } from 'vue'
 import { useStore } from '@/store/index'
-import GolbalHeader, { UserProps } from '../components/GolbalHeader.vue'
+import { UserInfo } from '@/store/modules/user'
+import GolbalHeader from '../components/GolbalHeader.vue'
 
 export default defineComponent({
   name: 'Layout',
@@ -17,7 +18,7 @@ export default defineComponent({
   },
   setup () {
     const store = useStore()
-    const userInfo: ComputedRef<UserProps> = computed(
+    const userInfo: ComputedRef<UserInfo> = computed(
       () => store.state.user.user
     )
     return {

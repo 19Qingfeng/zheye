@@ -16,8 +16,7 @@ export function getColumn<T> (cid: string) {
   })
 }
 
-// 获取单个专栏
-export function getPosts<T> (cid: string) {
+export const getPosts = <T>(cid: string) => {
   return request<T>({
     url: `/columns/${cid}/posts`,
     method: 'get'
