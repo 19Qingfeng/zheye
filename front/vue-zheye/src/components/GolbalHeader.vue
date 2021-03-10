@@ -2,13 +2,13 @@
   <nav class="navbar navbar-dark bg-primary mb-4 px-4">
     <a class="navbar-brand" href="#" @click="goBackHome">者也专栏</a>
     <ul class="list-inline mb-0">
-      <template v-if="isLogin">
+      <template v-if="!isLogin">
         <li class="list-inline-item">
           <a href="" class="btn btn-outline-light my-2" @click="handleLogin"
             >登陆</a
           >
         </li>
-        <li class="list-inline-item">
+        <li class="list-inline-item" @click="handleSignup">
           <a href="" class="btn btn-outline-light my-2">注册</a>
         </li>
       </template>
@@ -59,12 +59,16 @@ export default defineComponent({
     const handleLogin = () => {
       router.push({ name: 'Login' })
     }
+    const handleSignup = () => {
+      router.push({ name: 'Register' })
+    }
     const isLogin = computed(() => {
       return store.getters['user/isLogin']
     })
     return {
       isLogin,
       goBackHome,
+      handleSignup,
       handleLogin
     }
   }

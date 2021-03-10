@@ -4,8 +4,10 @@ export type MessageType = 'primary' | 'success' | 'danger' | 'warning' | 'info';
 
 /**
  * @param message 提示内容
- * @type message 类型
- * @timeout 持续时间 默认2000ms
+ * @param type 类型
+ * @param timeout 持续时间 默认2000ms
+ * @return void
+ * @example see @/api/config/request.ts
  */
 const createMessage = (message: string, type: MessageType, timeout = 2000) => {
   const instance = createApp(Message, {

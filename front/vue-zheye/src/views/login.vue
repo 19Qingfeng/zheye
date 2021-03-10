@@ -23,6 +23,7 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from '@/store/index'
+import createMessage from '../components/Message/createMessage'
 import ValidateInput, { RulesProps } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/validateForm.vue'
 
@@ -49,6 +50,7 @@ export default defineComponent({
         }
         await store.dispatch('user/getLoginInfo', obj)
         form.value.clearFormData()
+        createMessage('登陆成功', 'success')
         router.push({ name: 'Home' })
       }
     }

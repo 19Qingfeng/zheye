@@ -13,7 +13,7 @@ const icode = '29C8A1608873A09C'
 
 const axiosRequest = axios.create({
   baseURL: 'http://apis.imooc.com/api',
-  timeout: 1000
+  timeout: 10000
 })
 
 // request interceptors

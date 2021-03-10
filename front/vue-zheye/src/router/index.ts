@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/layout/index.vue'
 import Home from '@/views/home.vue'
 import Login from '@/views/login.vue'
+import Register from '@/views/register.vue'
 import Column from '@/views/column.vue'
 import store from '@/store'
 const router = createRouter({
@@ -30,6 +31,11 @@ const router = createRouter({
           }
         },
         {
+          path: '/register',
+          name: 'Register',
+          component: Register
+        },
+        {
           path: '/column/:id',
           name: 'Column',
           component: Column,
@@ -53,10 +59,9 @@ const router = createRouter({
   ]
 })
 
-const whiteList: string[] = ['/login']
+const whiteList: string[] = ['/login', '/register']
 
 router.beforeEach(async (to, from, next) => {
-  // isLogin 使用是否存在token进行检查 而不是isLogin
   const isLogin = store.getters['user/isLogin']
   const hasUserInfo = !!store.state.user.user._id
   if (isLogin) {

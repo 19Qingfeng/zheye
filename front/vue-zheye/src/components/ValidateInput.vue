@@ -29,8 +29,9 @@ import { $emit, $off, $on } from '@/utils/event'
 const emailReg = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*\.[a-z]{2,}$/
 
 interface RuleProp {
-  type: 'require' | 'email';
+  type: 'require' | 'email' | 'custom';
   message: string;
+  validate?: (value: any) => boolean;
 }
 
 export type TagType = 'input' | 'textarea';
@@ -71,6 +72,8 @@ export default defineComponent({
             case 'email':
               passed = emailReg.test(value.val)
               break
+            case 'custom':
+              passed = rule.validate ? rule.validate(props.modelValue) : true
           }
           return passed
         })

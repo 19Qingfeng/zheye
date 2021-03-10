@@ -13,7 +13,7 @@
 
 <script lang='ts'>
 import { computed, defineComponent, PropType, ref, toRef } from 'vue'
-import { MessageType } from './createMessage'
+import type { MessageType } from './createMessage'
 export default defineComponent({
   name: 'Message',
   props: {
