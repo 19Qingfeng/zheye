@@ -4,7 +4,7 @@ export type MessageType = 'primary' | 'success' | 'danger' | 'warning' | 'info';
 
 /**
  * @param message 提示内容
- * @param type 类型
+ * @param type 类型 primary' | 'success' | 'danger' | 'warning' | 'info';
  * @param timeout 持续时间 默认2000ms
  * @return void
  * @example see @/api/config/request.ts

@@ -1,6 +1,13 @@
 <template>
   <div class="create-post-page">
     <h4>新建文章</h4>
+    response:{{ response }}
+    <upload
+      action="/upload"
+      :beforeUpload="onBeforeUpload"
+      :uploadSuccess="onUploadSuccess"
+      :uploadError="onUploadError"
+    />
     <validate-form @onFormSubmit="onFormSubmit">
       <div class="mb-3">
         <label class="form-label">文章标题</label>
@@ -29,19 +36,20 @@
 
 <script lang='ts'>
 import { defineComponent, ref } from 'vue'
-import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
+import Upload from '@/components/Upload/index.vue'
 import ValidateForm from '@/components/validateForm.vue'
 import ValidateInput from '@/components/ValidateInput.vue'
+import { useUpload } from '@/hooks/useUpload'
 
 export default defineComponent({
   name: 'CreatePosts',
   components: {
     ValidateForm,
-    ValidateInput
+    ValidateInput,
+    Upload
   },
   setup () {
-    const store = useStore()
     const router = useRouter()
     const title = ref('')
     const context = ref('')
@@ -71,7 +79,8 @@ export default defineComponent({
       context,
       titleRules,
       onFormSubmit,
-      contextRules
+      contextRules,
+      ...useUpload(1, ['image/png'])
     }
   }
 })
