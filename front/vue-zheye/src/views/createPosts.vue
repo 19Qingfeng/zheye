@@ -1,6 +1,7 @@
 <template>
   <div class="create-post-page">
     <h4>新建文章</h4>
+    {{context}}
     <upload
       class="d-flex align-items-center justify-content-center bg-light text-secondary w-100 my-4"
       action="/upload"
@@ -74,8 +75,8 @@ export default defineComponent({
     const author = computed(() => {
       return store.state.user.user._id
     })
-    const title = ref('')
-    const context = ref('')
+    const title = ref('title')
+    const context = ref('context123123')
     const titleRules = [
       {
         type: 'require',

@@ -5,7 +5,7 @@
       ref="input"
       class="form-control"
       :class="{ 'is-invalid': value.error }"
-      v-model="value.val"
+      :value="value.val"
       v-bind="$attrs"
       @blur="validateInput"
       @input="updateModelValue"
@@ -18,6 +18,7 @@
 
 <script lang='ts'>
 import {
+  computed,
   defineComponent,
   onMounted,
   onUnmounted,
@@ -56,7 +57,12 @@ export default defineComponent({
   },
   setup (props, context) {
     const value = reactive({
-      val: props.modelValue,
+      val: computed({
+        get: () => props.modelValue,
+        set: (val) => {
+          context.emit('updateModelValue', val)
+        }
+      }),
       message: '',
       error: false
     })
@@ -83,6 +89,7 @@ export default defineComponent({
       return true
     }
     const updateModelValue = (e: KeyboardEvent) => {
+      console.log('update')
       const target = e.target
       const updateValue = (target as HTMLInputElement).value
       value.val = updateValue

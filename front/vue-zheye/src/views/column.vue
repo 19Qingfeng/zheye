@@ -42,8 +42,6 @@ export default defineComponent({
     })
     // const list = computed(() => store.getters['home/currentPosts'](currentId))
     const list = computed(() => store.getters['home/currentPosts'](currentId))
-    console.log(column.value, 'column')
-    console.log(list.value, 'list')
     onMounted(() => {
       // nothing
     })
