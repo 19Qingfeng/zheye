@@ -1,23 +1,25 @@
 <template>
-  <div class="file-upload" @click="handleUpload">
-    <template v-if="fileStatus === 'ready'">
-      <slot name="ready">
-        <button class="btn btn-primary">上传文件</button>
-      </slot>
-    </template>
-    <template v-if="fileStatus === 'loading'">
-      <slot name="loading">
-        <div class="spinner-border text-danger" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </slot>
-    </template>
-    <template v-if="fileStatus === 'success'">
-      <slot name="success" :data="fileResponse">上传成功</slot>
-    </template>
-    <template v-if="fileStatus === 'error'">
-      <slot name="error">上传失败</slot>
-    </template>
+  <div class="file-upload">
+    <div class="file-upload-container" v-bind="$attrs" @click="handleUpload">
+      <template v-if="fileStatus === 'ready'">
+        <slot name="ready">
+          <button class="btn btn-primary">上传文件</button>
+        </slot>
+      </template>
+      <template v-if="fileStatus === 'loading'">
+        <slot name="loading">
+          <div class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </slot>
+      </template>
+      <template v-if="fileStatus === 'success'">
+        <slot name="success" :data="fileResponse">上传成功</slot>
+      </template>
+      <template v-if="fileStatus === 'error'">
+        <slot name="error">上传失败</slot>
+      </template>
+    </div>
     <div class="upload-tip" v-show="fileStatus === 'ready'">
       <slot name="tip">上传文件提示内容。</slot>
     </div>
@@ -39,9 +41,14 @@ import type { PropType } from 'vue'
 type FileStatus = 'success' | 'error' | 'loading' | 'ready';
 type BeforeFunc = (file: File) => boolean;
 type uploadResFunc = (res: any, file: File) => void;
+interface UploadInfo {
+  status: FileStatus;
+  url?: string;
+}
 
 export default defineComponent({
   name: 'Upload',
+  inheritAttrs: false,
   props: {
     action: {
       type: String,
@@ -55,12 +62,17 @@ export default defineComponent({
     },
     uploadError: {
       type: Function as PropType<uploadResFunc>
+    },
+    defaultUrl: {
+      type: String
     }
   },
   setup (props) {
     const fileInput = ref<null | HTMLInputElement>(null)
-    const fileStatus = ref<FileStatus>('ready')
-    const fileResponse = ref()
+    const fileStatus = ref<FileStatus>(props.defaultUrl ? 'success' : 'ready')
+    const fileResponse = ref<any>(
+      props.defaultUrl ? { url: props.defaultUrl } : ''
+    )
     const handleUpload = () => {
       if (fileInput.value) {
         fileInput.value.click()

@@ -1,9 +1,9 @@
 import { ColumnListData } from '@/components/ComumnList/interface'
-import { PostProps, Columns, Column } from '@/api/home/interface'
 import { PostProp } from '@/components/PostList/interface'
 import { StateType } from '../interface'
 import { Module } from 'vuex'
-import { getColumn, getColumns, getPosts } from '@/api/home'
+import { getColumn, getColumns, getPosts, createPost } from '@/api/home'
+import type { PostProps, Columns, Column, CreatePostParams } from '@/api/home/interface'
 
 export interface HomeState {
   column: ColumnListData[];
@@ -66,6 +66,12 @@ const module: Module<HomeState, StateType> = {
     async fetchPosts ({ commit }, cid) {
       const { list } = await getPosts<PostProps>(cid)
       commit('fetchPosts', list)
+    },
+    async createPost ({ commit }, data: CreatePostParams) {
+      const response = await createPost<any>(data)
+      // 不需要做commit
+      console.log(response, '响应结果')
+      // commit("ADD_POST_TO_COLUMNS")
     }
   }
 }

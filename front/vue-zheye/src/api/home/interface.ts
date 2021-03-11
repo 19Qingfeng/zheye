@@ -4,6 +4,14 @@ export interface GetColumnsParams {
   id: string;
 }
 
+export interface CreatePostParams {
+  title: string;
+  content: string;
+  image?: string;
+  column: string;
+  author: string;
+}
+
 /* 后台接口返回数据 */
 
 export interface ImageProps {

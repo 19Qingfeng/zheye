@@ -13,8 +13,8 @@ import createMessage from '@/components/Message/createMessage'
  */
 export function useUpload (size?: number, typeList?: string[]) {
   const response = reactive({
-    success: null,
-    error: null
+    success: undefined,
+    error: undefined
   })
   const onBeforeUpload = (file: File) => {
     const { size: fileSize, type } = file
@@ -31,10 +31,12 @@ export function useUpload (size?: number, typeList?: string[]) {
     }
     return true
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onUploadSuccess = (res: any, file: File) => {
     createMessage('上传成功', 'success')
     response.success = res
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onUploadError = (error: any, file: File) => {
     createMessage('上传失败', 'danger')
     response.error = error

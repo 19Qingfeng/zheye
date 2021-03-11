@@ -15,7 +15,7 @@
       <template v-else>
         <li class="list-inline-item">
           <dropdown :title="`你好 ${user.nickName}`">
-            <dropdown-item link="New">
+            <dropdown-item link="CreatePosts">
               <a href="#" class="dropdown-item"> 新建文章</a>
             </dropdown-item>
             <dropdown-item>
